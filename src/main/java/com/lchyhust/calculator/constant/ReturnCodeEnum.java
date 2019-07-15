@@ -10,7 +10,11 @@ public enum ReturnCodeEnum {
     /* success */
     SUCCESS(0, "success"),
     /* failed */
-    FAILED(1, "failed");
+    FAILED(1, "failed"),
+    /* divisor can't be zero */
+    ErrDivisorIsZero(2, "divisor can't be zero"),
+    /* operate type is invalid */
+    ErrOperateTypeInvalid(3, "operate type is invalid");
     private Integer code;
     private String name;
 

@@ -44,13 +44,19 @@ public class CalculatorController {
                 resp.setReturnCode(ReturnCodeEnum.SUCCESS.getCode());
                 break;
             case OPERATOR_DIVIDE:
+                if (req.getNum2() == 0) {
+                    resp.setReturnCode(ReturnCodeEnum.ErrDivisorIsZero.getCode());
+                    resp.setReturnMsg(ReturnCodeEnum.ErrDivisorIsZero.getName());
+                    return resp;
+                }
                 resp.setResult(req.getNum1() / req.getNum2());
                 resp.setReturnCode(ReturnCodeEnum.SUCCESS.getCode());
                 break;
             default:
                 resp.setResult(0);
-                resp.setReturnCode(ReturnCodeEnum.FAILED.getCode());
-                break;
+                resp.setReturnCode(ReturnCodeEnum.ErrOperateTypeInvalid.getCode());
+                resp.setReturnMsg(ReturnCodeEnum.ErrOperateTypeInvalid.getName());
+                return resp;
         }
         StringBuilder sb = new StringBuilder();
         sb.append(req.getNum1())
@@ -60,9 +66,6 @@ public class CalculatorController {
                 .append(resp.getResult());
         resp.setExpression(sb.toString());
         resp.setReturnMsg(ReturnCodeEnum.SUCCESS.getName());
-        if (resp.getReturnCode().equals(ReturnCodeEnum.FAILED.getCode())) {
-            resp.setReturnMsg(ReturnCodeEnum.FAILED.getName());
-        }
         return resp;
     }
 }
