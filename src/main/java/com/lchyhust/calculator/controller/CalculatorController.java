@@ -4,6 +4,8 @@ import com.lchyhust.calculator.constant.OperatorEnum;
 import com.lchyhust.calculator.constant.ReturnCodeEnum;
 import com.lchyhust.calculator.request.CalculatorRequest;
 import com.lchyhust.calculator.response.CalculatorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
  * @author mikeluan
  * @create 2019-07-15 15:37
  */
-@CrossOrigin    /* 重要：解决跨域问题 */
+@CrossOrigin(origins = "*", maxAge = 3600)    /* 重要：解决跨域问题 */
 @RestController
 public class CalculatorController {
+    private static final Logger logger = LoggerFactory.getLogger(CalculatorController.class);
+
     @RequestMapping(value = "/calculate")
     @ResponseBody
     public CalculatorResponse calculator(@RequestBody CalculatorRequest req) {
@@ -26,6 +30,7 @@ public class CalculatorController {
             resp.setResult(0);
             resp.setReturnCode(ReturnCodeEnum.ErrOperateTypeInvalid.getCode());
             resp.setReturnMsg(ReturnCodeEnum.ErrOperateTypeInvalid.getName());
+            logger.error("operator type error!");
             return resp;
         }
         switch (operValue) {
@@ -45,6 +50,7 @@ public class CalculatorController {
                 if (req.getNum2() == 0) {
                     resp.setReturnCode(ReturnCodeEnum.ErrDivisorIsZero.getCode());
                     resp.setReturnMsg(ReturnCodeEnum.ErrDivisorIsZero.getName());
+                    logger.error("divisor is zero!");
                     return resp;
                 }
                 resp.setResult(req.getNum1() / req.getNum2());
@@ -54,6 +60,7 @@ public class CalculatorController {
                 resp.setResult(0);
                 resp.setReturnCode(ReturnCodeEnum.ErrOperateTypeInvalid.getCode());
                 resp.setReturnMsg(ReturnCodeEnum.ErrOperateTypeInvalid.getName());
+                logger.error("operate type is invalid!");
                 return resp;
         }
         StringBuilder sb = new StringBuilder();
@@ -64,6 +71,7 @@ public class CalculatorController {
                 .append(resp.getResult());
         resp.setExpression(sb.toString());
         resp.setReturnMsg(ReturnCodeEnum.SUCCESS.getName());
+        logger.info("result: " + resp.getExpression());
         return resp;
     }
 }
