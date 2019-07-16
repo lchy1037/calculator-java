@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <script src="calculator.js"></script>
+</head>
+<body>
+<form>
+    第一个数：<input id="num1" type="text" name="num1" /><br>
+    操作符号：
+    <select id="oper" name="oper">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select><br>
+    第二个数：<input id="num2" type="text" name="num2" /><br>
+    <button type="button" onclick="calculate()">计算</button>
+</form>
+
+<input id="result" type="text" name="result"/>
+
+</body>
+</html>

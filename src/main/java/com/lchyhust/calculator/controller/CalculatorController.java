@@ -4,10 +4,7 @@ import com.lchyhust.calculator.constant.OperatorEnum;
 import com.lchyhust.calculator.constant.ReturnCodeEnum;
 import com.lchyhust.calculator.request.CalculatorRequest;
 import com.lchyhust.calculator.response.CalculatorResponse;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 核心计算类
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author mikeluan
  * @create 2019-07-15 15:37
  */
+@CrossOrigin    /* 重要：解决跨域问题 */
 @RestController
 public class CalculatorController {
     @RequestMapping(value = "/calculate")
@@ -26,8 +24,8 @@ public class CalculatorController {
         OperatorEnum operValue = OperatorEnum.getByType(req.getOper());
         if (operValue == null) {
             resp.setResult(0);
-            resp.setReturnCode(ReturnCodeEnum.FAILED.getCode());
-            resp.setReturnMsg(ReturnCodeEnum.FAILED.getName());
+            resp.setReturnCode(ReturnCodeEnum.ErrOperateTypeInvalid.getCode());
+            resp.setReturnMsg(ReturnCodeEnum.ErrOperateTypeInvalid.getName());
             return resp;
         }
         switch (operValue) {
